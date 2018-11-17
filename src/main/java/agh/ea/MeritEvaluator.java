@@ -6,7 +6,7 @@ public class MeritEvaluator implements IEvaluator {
 	
 	@Override
 	public float evaluate(ISequence sequence) {
-		return (float) (Math.pow(sequence.getLength(),2)/energyEval.evaluate(sequence));
+		return (float) (Math.pow(sequence.getLength(),2)/(2*energyEval.evaluate(sequence)));
 	}
 
 }
