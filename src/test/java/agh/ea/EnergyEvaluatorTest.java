@@ -8,8 +8,8 @@ class EnergyEvaluatorTest {
 
 	@Test
 	void test() {
-		ISequence sequence = new BinarySequence(new int[]{1, -1, 1, -1});
-		int expectedEnergy = 14;
+		ISequence sequence = new BinarySequence(new int[]{-1, -1, -1, 1, -1});
+		int expectedEnergy = 2;
 		
 		IEvaluator evaluator = new EnergyEvaluator();
 		assertEquals(expectedEnergy, evaluator.evaluate(sequence));
