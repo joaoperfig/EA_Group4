@@ -8,7 +8,11 @@ class EnergyEvaluatorTest {
 
 	@Test
 	void test() {
-		fail("Not yet implemented");
+		ISequence sequence = new BinarySequence(new int[]{1, -1, 1, -1});
+		int expectedEnergy = 14;
+		
+		IEvaluator evaluator = new EnergyEvaluator();
+		assertEquals(expectedEnergy, evaluator.evaluate(sequence));
 	}
 
 }
