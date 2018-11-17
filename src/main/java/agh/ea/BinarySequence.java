@@ -7,6 +7,10 @@ public class BinarySequence implements ISequence {
 	public BinarySequence(int length) {
 		this.sequence = new int[length];
 	}
+	
+	public BinarySequence(int... bits) {
+		this.sequence = bits;
+	}
 
 	@Override
 	public int getLength() {
