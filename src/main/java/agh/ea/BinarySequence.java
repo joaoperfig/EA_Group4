@@ -8,7 +8,7 @@ public class BinarySequence implements ISequence {
 		this.sequence = new int[length];
 	}
 	
-	public BinarySequence(int... bits) {
+	public BinarySequence(int[] bits) {
 		this.sequence = bits;
 	}
 
@@ -26,5 +26,5 @@ public class BinarySequence implements ISequence {
 	public void set(int index, int value) {
 		this.sequence[index] = value;
 	}
-
+	
 }
