@@ -62,4 +62,14 @@ public class BinarySequence implements ISequence {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		String result = "#";
+		for (int i=0;i<this.sequence.length; i++) {
+			if (this.sequence[i] > 0) result += "1";
+			else result += "0";
+		}
+		return result+"#";
+	}
 }

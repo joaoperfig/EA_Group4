@@ -13,10 +13,10 @@ public class SequenceValuePair implements Comparable<SequenceValuePair>{
    @Override
     public int compareTo(SequenceValuePair other) {
         if (this.getMerit()>other.getMerit()) {
-        	return 1;
+        	return -1;
         	}
         else if (this.getMerit()<other.getMerit()) {
-        	return -1;
+        	return 1;
         	}
         return 0;
     }
