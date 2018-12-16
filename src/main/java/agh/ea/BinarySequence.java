@@ -1,5 +1,7 @@
 package agh.ea;
 
+import java.util.Arrays;
+
 public class BinarySequence implements ISequence {
 	
 	private int[] sequence;
@@ -29,8 +31,35 @@ public class BinarySequence implements ISequence {
 
 	@Override
 	public ISequence flip(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		BinarySequence flipped = new BinarySequence(this.sequence.clone());
+		if (at(index) == -1) {
+			flipped.set(index, 1);
+		} else {
+			flipped.set(index, -1);
+		}
+		
+		return flipped;
 	}
-	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(sequence);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BinarySequence other = (BinarySequence) obj;
+		if (!Arrays.equals(sequence, other.sequence))
+			return false;
+		return true;
+	}
 }
