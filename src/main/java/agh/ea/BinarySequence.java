@@ -29,8 +29,15 @@ public class BinarySequence implements ISequence {
 
 	@Override
 	public ISequence flip(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		BinarySequence flipped = new BinarySequence(this.sequence.clone());
+		if (at(index) == -1) {
+			flipped.set(index, 1);
+		} else {
+			flipped.set(index, -1);
+		}
+		
+		return flipped;
 	}
+	
 	
 }
