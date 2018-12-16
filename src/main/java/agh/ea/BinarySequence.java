@@ -26,5 +26,11 @@ public class BinarySequence implements ISequence {
 	public void set(int index, int value) {
 		this.sequence[index] = value;
 	}
+
+	@Override
+	public ISequence flip(int index) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

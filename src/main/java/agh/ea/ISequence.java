@@ -8,6 +8,8 @@ public interface ISequence {
 	
 	void set(int index, int value);
 	
+	ISequence flip(int index);
+	
 	@Override
 	String toString();
 }
