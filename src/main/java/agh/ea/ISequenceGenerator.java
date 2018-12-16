@@ -2,5 +2,5 @@ package agh.ea;
 
 public interface ISequenceGenerator {
 	
-	ISequence generate();
+	ISequence generate(int length);
 }
