@@ -6,7 +6,7 @@ import java.util.PriorityQueue;
 public class XLastovka {
 	
 	public ISequence generate (int size, float targetMerit) {
-		ISequenceGenerator generator = null;//TODO MARKO CARALHO
+		ISequenceGenerator generator = new BinarySequenceGenerator();//TODO MARKO CARALHO
 		MeritEvaluator evaluator = new MeritEvaluator();
 		PriorityQueue<SequenceValuePair> pq = new PriorityQueue<SequenceValuePair>();
 		HashSet<ISequence> closePivots = new HashSet<ISequence>();
