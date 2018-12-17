@@ -13,7 +13,7 @@ public class Main {
 	
 	private static final int ALGORITHM_CYCLES = 5;
 
-	private static final long DURATION_SECONDS = 15;
+	private static final long DURATION_SECONDS = 600;
 
 	private static final int MAX_QUEUE_SIZE = 10000;
 
