@@ -6,32 +6,37 @@ import java.util.PriorityQueue;
 public class XLastovka {
 
 	public ISequence generate(int size, long durationSeconds, int maxPrioritySize) {
-		System.out.println("Start XLastovka Algorithm!");
+		//System.out.println("Start XLastovka Algorithm!");
 
 		long durationNanoSecs = (long) (durationSeconds * 1E9);
 		long start = System.nanoTime();
 
 		ISequenceGenerator generator = new BinarySequenceGenerator();
-		MeritEvaluator evaluator = new MeritEvaluator();
+		MeritEvaluator meritEvaluator = new MeritEvaluator();
+		EnergyEvaluator energyEvaluator = new EnergyEvaluator();
 		PriorityQueue<SequenceValuePair> priority = new PriorityQueue<SequenceValuePair>();
 		HashSet<ISequence> visitedNeighbors = new HashSet<ISequence>();
 		ISequence flipped;
-		float fmerit;
-		SequenceValuePair fseqpair;
+		float flippedMerit;
+		float flippedEnergy;
+		SequenceValuePair flippedSeqPair;
 
 		ISequence bestSequence = null;
 		float bestMerit = 0;
+		float bestEnergy = Float.MAX_VALUE;
 
 		ISequence sequence = generator.generate(size);
-		SequenceValuePair seqpair;
-		float merit = evaluator.evaluate(sequence);
-		seqpair = new SequenceValuePair(sequence, merit);
-		priority.add(seqpair);
+		SequenceValuePair seqPair;
+		float merit = meritEvaluator.evaluate(sequence);
+		seqPair = new SequenceValuePair(sequence, merit);
+		priority.add(seqPair);
 
 		while (System.nanoTime() < (start + durationNanoSecs)) {
 
 			if (priority.size() >= maxPrioritySize)
-				priority = removelasts(priority, maxPrioritySize);
+				priority = removeExcess(priority, maxPrioritySize);
+			
+			if (priority.isEmpty()) break;
 
 			sequence = priority.remove().getSequence();
 			visitedNeighbors.add(sequence);
@@ -39,15 +44,19 @@ public class XLastovka {
 				flipped = sequence.flip(i);
 				// System.out.println(flipped.toString());
 				if (!visitedNeighbors.contains(flipped)) {
-					fmerit = evaluator.evaluate(flipped);
-					if (fmerit > bestMerit) {
-						bestMerit = fmerit;
+					flippedMerit = meritEvaluator.evaluate(flipped);
+					flippedEnergy = energyEvaluator.evaluate(flipped);
+					
+					if (flippedMerit > bestMerit) {
+						bestMerit = flippedMerit;
+						bestEnergy = flippedEnergy;
 						bestSequence = flipped;
-						System.out.println(bestMerit);
+						System.out.println(bestMerit + " " + bestEnergy);
 						// System.out.println(bestSequence.toString());
 					}
-					fseqpair = new SequenceValuePair(flipped, fmerit);
-					priority.add(fseqpair);
+					
+					flippedSeqPair = new SequenceValuePair(flipped, flippedMerit);
+					priority.add(flippedSeqPair);
 				}
 			}
 		}
@@ -55,7 +64,7 @@ public class XLastovka {
 		return bestSequence;
 	}
 
-	private static PriorityQueue<SequenceValuePair> removelasts(PriorityQueue<SequenceValuePair> pq, int size) {
+	private static PriorityQueue<SequenceValuePair> removeExcess(PriorityQueue<SequenceValuePair> pq, int size) {
 		int extras = pq.size() - size;
 
 		PriorityQueue<SequenceValuePair> pqnew = new PriorityQueue<SequenceValuePair>();
