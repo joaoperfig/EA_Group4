@@ -5,9 +5,10 @@ import java.util.PriorityQueue;
 
 public class XLastovka {
 	
-	public ISequence generate (int size, long durationNanoSecs, int maxPrioritySize) {
+	public ISequence generate (int size, long durationSeconds, int maxPrioritySize) {
 		System.out.println("Start XLastovka Algorithm!");
 		
+		long durationNanoSecs = (long) (durationSeconds * 1E9);
 		long start = System.nanoTime();
 		
 		ISequenceGenerator generator = new BinarySequenceGenerator();
@@ -31,9 +32,7 @@ public class XLastovka {
 			
 			if(priority.size() >= maxPrioritySize)
 				priority = removelasts(priority, maxPrioritySize);
-			
-			//System.out.println(priority.size());
-			
+						
 			sequence = priority.remove().getSequence();
 			visitedNeighbors.add(sequence);
 			for (int i=0; i<(size+1)/2; i++) {
