@@ -8,5 +8,4 @@ public class MeritEvaluator implements IEvaluator {
 	public float evaluate(ISequence sequence) {
 		return (float) (Math.pow(sequence.getLength(), 2) / (2 * energyEval.evaluate(sequence)));
 	}
-
 }

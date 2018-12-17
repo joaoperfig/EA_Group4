@@ -3,13 +3,13 @@ package agh.ea;
 import java.util.Arrays;
 
 public class BinarySequence implements ISequence {
-	
+
 	private int[] sequence;
-	
+
 	public BinarySequence(int length) {
 		this.sequence = new int[length];
 	}
-	
+
 	public BinarySequence(int[] bits) {
 		this.sequence = bits;
 	}
@@ -37,7 +37,7 @@ public class BinarySequence implements ISequence {
 		} else {
 			flipped.set(index, -1);
 		}
-		
+
 		return flipped;
 	}
 
@@ -62,14 +62,16 @@ public class BinarySequence implements ISequence {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		String result = "#";
-		for (int i=0;i<this.sequence.length; i++) {
-			if (this.sequence[i] > 0) result += "1";
-			else result += "0";
+		for (int i = 0; i < this.sequence.length; i++) {
+			if (this.sequence[i] > 0)
+				result += "1";
+			else
+				result += "0";
 		}
-		return result+"#";
+		return result + "#";
 	}
 }

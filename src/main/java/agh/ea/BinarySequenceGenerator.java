@@ -4,10 +4,10 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class BinarySequenceGenerator implements ISequenceGenerator {
-	
+
 	private SecureRandom random;
 	private static final String RNG_ALGORITHM = "SHA1PRNG";
-	
+
 	public BinarySequenceGenerator() {
 		try {
 			random = SecureRandom.getInstance(RNG_ALGORITHM);
@@ -20,7 +20,7 @@ public class BinarySequenceGenerator implements ISequenceGenerator {
 	@Override
 	public ISequence generate(int length) {
 		BinarySequence sequence = new BinarySequence(length);
-		
+
 		for (int index = 0; index < length; index++) {
 			if (random.nextBoolean()) {
 				sequence.set(index, 1);
@@ -28,7 +28,7 @@ public class BinarySequenceGenerator implements ISequenceGenerator {
 				sequence.set(index, -1);
 			}
 		}
-		
+
 		return sequence;
 	}
 }

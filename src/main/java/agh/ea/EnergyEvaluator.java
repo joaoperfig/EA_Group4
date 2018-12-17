@@ -18,5 +18,4 @@ public class EnergyEvaluator implements IEvaluator {
 		}
 		return total;
 	}
-
 }
