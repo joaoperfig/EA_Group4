@@ -4,12 +4,45 @@ import java.util.HashSet;
 import java.util.PriorityQueue;
 
 public class XLastovka {
+	
+	public static final long MAX_DURATION_MINUTES = 10;
+	
+	public static final long MAX_DURATION_NANOSECONDS = (long) (MAX_DURATION_MINUTES * 60 * 1E9);
+	
+	public static double secondsSince(long time) {
+		return (System.nanoTime() - time) / 1E9;  
+	}
+	
+	public ISequence generate(int size, long maxIterations, int maxPrioritySize) {
+		long startTime = System.nanoTime();
+		long endTime = startTime + MAX_DURATION_NANOSECONDS;
+		
+		ISequence bestSequence = null;
+		float bestMerit = 0;
+		float bestEnergy = Float.MAX_VALUE;
+		EnergyEvaluator energyEvaluator = new EnergyEvaluator();
+		MeritEvaluator meritEvaluator = new MeritEvaluator();
+		
+		while (System.nanoTime() < endTime) {
+			ISequence currentSequence = generateSingle(size, maxIterations, maxPrioritySize);
+			
+			float currentMerit = meritEvaluator.evaluate(currentSequence);
+			float currentEnergy = energyEvaluator.evaluate(currentSequence);
+			
+			if (currentMerit > bestMerit) {
+				bestSequence = currentSequence;
+				bestMerit = currentMerit;
+				bestEnergy = currentEnergy;
+			}
+			
+			System.out.println(bestMerit + " " + bestEnergy);
+		}
+		
+		return bestSequence;
+	}
 
-	public ISequence generate(int size, long durationSeconds, int maxPrioritySize) {
+	private ISequence generateSingle(int size, long maxIterations, int maxPrioritySize) {
 		//System.out.println("Start XLastovka Algorithm!");
-
-		long durationNanoSecs = (long) (durationSeconds * 1E9);
-		long start = System.nanoTime();
 
 		ISequenceGenerator generator = new BinarySequenceGenerator();
 		MeritEvaluator meritEvaluator = new MeritEvaluator();
@@ -31,7 +64,7 @@ public class XLastovka {
 		seqPair = new SequenceValuePair(sequence, merit);
 		priority.add(seqPair);
 
-		while (System.nanoTime() < (start + durationNanoSecs)) {
+		for (long iteration = 1; iteration <= maxIterations; iteration++) {
 
 			if (priority.size() >= maxPrioritySize)
 				priority = removeExcess(priority, maxPrioritySize);
@@ -51,7 +84,6 @@ public class XLastovka {
 						bestMerit = flippedMerit;
 						bestEnergy = flippedEnergy;
 						bestSequence = flipped;
-						System.out.println(bestMerit + " " + bestEnergy);
 						// System.out.println(bestSequence.toString());
 					}
 					
@@ -59,6 +91,7 @@ public class XLastovka {
 					priority.add(flippedSeqPair);
 				}
 			}
+
 		}
 
 		return bestSequence;

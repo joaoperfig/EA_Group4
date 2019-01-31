@@ -9,11 +9,11 @@ import java.nio.file.Paths;
 
 public class Main {
 
-	private static final int[] SEQUENCE_LENGTHS = { 51, 67, 77, 83, 95 };
+	private static final int[] SEQUENCE_LENGTHS = { 51, 77 };
 	
-	private static final int ALGORITHM_CYCLES = 5;
-
-	private static final long DURATION_SECONDS = 600;
+	private static final long[] MAX_ITERATIONS = { 64, 128, 256, 512, 1024 };
+	
+	private static final int ALGORITHM_CYCLES = 3;
 
 	private static final int MAX_QUEUE_SIZE = 10000;
 
@@ -22,28 +22,30 @@ public class Main {
 		
 		
 		for (int sequenceLength: SEQUENCE_LENGTHS) {
-			for (int cycle = 1; cycle <= ALGORITHM_CYCLES; cycle++) {
-				String fileDirectory = "./output/length" + sequenceLength; 
-				String fileName = "/cycle" + cycle + ".txt";
-				Path path = Paths.get(fileDirectory);
-				if (Files.notExists(path)) {
-					try {
-						Files.createDirectories(path);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
+			for (long noIterations: MAX_ITERATIONS) {
+				for (int cycle = 1; cycle <= ALGORITHM_CYCLES; cycle++) {
+					String fileDirectory = "./output/length" + sequenceLength
+							+ "/iterations" + noIterations;
+					String fileName = "/cycle" + cycle + ".txt";
+					Path path = Paths.get(fileDirectory);
+					if (Files.notExists(path)) {
+						try {
+							Files.createDirectories(path);
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+							System.exit(-1);
+						}
+					}
+					
+					try (PrintStream fileOut = new PrintStream(fileDirectory + fileName)) {
+						System.setOut(fileOut);
+						ISequence bestSequence = xl.generate(sequenceLength, noIterations, MAX_QUEUE_SIZE);
+						System.out.println(bestSequence);
+					} catch (FileNotFoundException e) {
 						e.printStackTrace();
 						System.exit(-1);
 					}
-				}
-				
-				try (PrintStream fileOut = new PrintStream(fileDirectory + fileName)) {
-					System.setOut(fileOut);
-					System.out.println("L=" + sequenceLength + ", " + "T=" + DURATION_SECONDS + "s, Q=" + MAX_QUEUE_SIZE);
-					ISequence bestSequence = xl.generate(sequenceLength, DURATION_SECONDS, MAX_QUEUE_SIZE);
-					System.out.println(bestSequence);
-				} catch (FileNotFoundException e) {
-					e.printStackTrace();
-					System.exit(-1);
 				}
 			}
 		}
